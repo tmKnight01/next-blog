@@ -1,8 +1,12 @@
+"use client";
 import { useRouter } from "next/router";
 import { article, home, photo, more } from "@/public/index";
+import useMobile from "@/hooks/useMobile";
 import Image from "next/image";
 
-const Header = () => {
+const Header = /*@__PURE__*/() => {
+  const { isMobile, innerWidth } = useMobile();
+
   const IMAGE_URL =
     "https://wp-boke.work/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo_black.9bac3531.png&w=128&q=75";
   const LIST = [
@@ -33,16 +37,18 @@ const Header = () => {
         src={IMAGE_URL}
         className="w-[100px] h-[83px] mt-[-10px]"
       />
-      <div className=" flex flex-1 items-center flex-row-reverse">
-        {LIST.map((item, idx) => (
-          <div key={idx} className=" flex py-[5px] px-[10px] m-[0 5px]">
-            <span className=" text-[18px] mr-[4px]" role="img">
-              {<Image src={item.icon} alt="Logo"/>}
-            </span>
-            <span className=" text-[16px]">{item.name}</span>
-          </div>
-        ))}
-      </div>
+      {!isMobile && (
+        <div className=" flex flex-1 items-center flex-row-reverse">
+          {LIST.map((item, idx) => (
+            <div key={idx} className=" flex py-[5px] px-[10px] m-[0 5px]">
+              <span className=" text-[18px] mr-[4px]" role="img">
+                {<Image src={item.icon} alt="Logo" />}
+              </span>
+              <span className=" text-[16px]">{item.name}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
