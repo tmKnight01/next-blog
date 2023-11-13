@@ -9,6 +9,7 @@ import {
 } from "react-icons/go";
 import { useState } from "react";
 import { Drawer } from "antd";
+import ThemeSwtich from "@/components/ThemeChange";
 import useMobile from "@/hooks/useMobile";
 import { motion } from "framer-motion";
 
@@ -77,6 +78,10 @@ const Header = /*@__PURE__*/ () => {
       name: "更多",
       icon: GoInfinity,
     },
+    {
+      name: "switch",
+      icon: ThemeSwtich,
+    },
   ];
   console.log("isMobile", isMobile);
   if (isMobile == null) return null;
@@ -100,25 +105,27 @@ const Header = /*@__PURE__*/ () => {
           animate={!isMobile ? "open" : "closed"}
           className=" flex flex-1 items-center flex-row justify-end"
         >
-          {LIST.map((item, idx) => (
-            <motion.div
-              key={item.name}
-              variants={lisrChildVariants}
-              className=" flex py-[5px] px-[10px] m-[0 5px] align-middle"
-            >
-              <span
-                className=" flex align-middle items-center text-[18px] mr-[4px]"
-                role="img"
+          <>
+            {LIST.map((item, idx) => (
+              <motion.div
+                key={item.name}
+                variants={lisrChildVariants}
+                className=" flex py-[5px] px-[10px] m-[0 5px] align-middle"
               >
-                {
-                  <item.icon className="text-slate-900 dark:text-header-light" />
-                }
-              </span>
-              <span className=" text-[16px] whitespace-normal text-slate-900 dark:text-header-light font-normal">
-                {item.name}
-              </span>
-            </motion.div>
-          ))}
+                <span
+                  className=" flex align-middle items-center text-[18px] mr-[4px]"
+                  role="img"
+                >
+                  {
+                    <item.icon className="text-slate-900 dark:text-header-light" />
+                  }
+                </span>
+                <span className=" text-[16px] whitespace-normal text-slate-900 dark:text-header-light font-normal">
+                  {item.name !== "switch" && item.name}
+                </span>
+              </motion.div>
+            ))}
+          </>
         </motion.div>
 
         <motion.div
@@ -134,11 +141,11 @@ const Header = /*@__PURE__*/ () => {
           />
         </motion.div>
       </div>
+
       <Drawer
         zIndex={99}
-        contentWrapperStyle={{ maxWidth:'300px',width:'66vw' }}
-
-        open={isVisible}
+        contentWrapperStyle={{ maxWidth: "300px", width: "66vw" }}
+        open={isVisible && isMobile}
         onClose={() => setIsVisble(false)}
       />
     </>
