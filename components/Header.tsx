@@ -9,9 +9,11 @@ import {
 } from "react-icons/go";
 import { useState } from "react";
 import { Drawer } from "antd";
+import Link from "next/link";
 import ThemeSwtich from "@/components/ThemeChange";
 import useMobile from "@/hooks/useMobile";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 const Header = /*@__PURE__*/ () => {
   const { isMobile = null } = useMobile();
@@ -59,20 +61,25 @@ const Header = /*@__PURE__*/ () => {
     },
   };
 
+  const { theme } = useTheme();
+
   const IMAGE_URL =
     "https://wp-boke.work/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo_black.9bac3531.png&w=128&q=75";
   const LIST = [
     {
       icon: GoHome,
       name: "首页",
+      location: "/",
     },
     {
       icon: GoBook,
       name: "文章",
+      location: "/article",
     },
     {
       name: "摄影",
       icon: GoImage,
+      location: "/image_list",
     },
     {
       name: "更多",
@@ -89,7 +96,7 @@ const Header = /*@__PURE__*/ () => {
   return (
     <>
       <div
-        className={`flex w-full  absolute bg-white dark:bg-slate-800 border-b-gray-200 border-b-2 h-[70px] py-0 px-[30px] justify-between items-center`}
+        className={`flex w-full fixed z-50  bg-white dark:bg-slate-800 border-b-gray-200 border-b-2 h-[70px] py-0 px-[30px] justify-between items-center`}
       >
         <img
           alt="logo"
@@ -101,29 +108,31 @@ const Header = /*@__PURE__*/ () => {
 
         <motion.div
           initial={"closed"}
-          variants={listVariants}
+          variants={listVariants as any}
           animate={!isMobile ? "open" : "closed"}
           className=" flex flex-1 items-center flex-row justify-end"
         >
           <>
             {LIST.map((item, idx) => (
-              <motion.div
-                key={item.name}
-                variants={lisrChildVariants}
-                className=" flex py-[5px] px-[10px] m-[0 5px] align-middle"
-              >
-                <span
-                  className=" flex align-middle items-center text-[18px] mr-[4px]"
-                  role="img"
+              <Link href={item.location || "/"}>
+                <motion.div
+                  key={item.name}
+                  variants={lisrChildVariants}
+                  className=" hover:rounded-lg cursor-pointer  hover:bg-white hover:bg-opacity-5 flex py-[5px] px-[10px] m-[0 5px] align-middle"
                 >
-                  {
-                    <item.icon className="text-slate-900 dark:text-header-light" />
-                  }
-                </span>
-                <span className=" text-[16px] whitespace-normal text-slate-900 dark:text-header-light font-normal">
-                  {item.name !== "switch" && item.name}
-                </span>
-              </motion.div>
+                  <span
+                    className=" flex align-middle items-center text-[18px] mr-[4px]"
+                    role="img"
+                  >
+                    {
+                      <item.icon className="text-slate-900 dark:text-header-light" />
+                    }
+                  </span>
+                  <span className=" text-[16px] whitespace-normal text-slate-900 dark:text-header-light font-normal">
+                    {item.name !== "switch" && item.name}
+                  </span>
+                </motion.div>
+              </Link>
             ))}
           </>
         </motion.div>
@@ -144,10 +153,33 @@ const Header = /*@__PURE__*/ () => {
 
       <Drawer
         zIndex={99}
-        contentWrapperStyle={{ maxWidth: "300px", width: "66vw" }}
+        contentWrapperStyle={{
+          maxWidth: "300px",
+          width: "66vw",
+        }}
+        style={{
+          backgroundColor: theme == "dark" ? "black" : "ButtonHighlight",
+        }}
+        drawerStyle={{ padding: 0 }}
         open={isVisible && isMobile}
         onClose={() => setIsVisble(false)}
-      />
+      >
+        <div className="h-full w-full flex items-center justify p-[10px] flex-col">
+          <div className="flex w-full items-center border-b-slate-400 border-b-2 flex-col ">
+            {LIST.map((item, _) => (
+              <div
+                key={item.name}
+                className="flex w-full items-center justify-start py-[15px] px-[30px] text-slate-900 dark:text-header-light font-normal"
+              >
+                <item.icon className="text-slate-900 dark:text-header-light text-[18px] mr-2" />
+                <span className=" text-[16px] whitespace-normal text-slate-900 dark:text-header-light font-normal">
+                  {item.name !== "switch" && item.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Drawer>
     </>
   );
 };

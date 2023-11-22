@@ -20,9 +20,13 @@ const config: Config = {
       colors: {
         "header-light": "hsla(0, 0%, 100%, .6)",
       },
+      
       screens: {
         ml: "1000px",
       },
+      borderColor:{
+        "border-color": "hsla(0,0%,100%,.1)" 
+      }
     },
   },
   plugins: [
