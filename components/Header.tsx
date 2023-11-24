@@ -167,15 +167,30 @@ const Header = /*@__PURE__*/ () => {
         <div className="h-full w-full flex items-center justify p-[10px] flex-col">
           <div className="flex w-full items-center border-b-slate-400 border-b-2 flex-col ">
             {LIST.map((item, _) => (
-              <div
-                key={item.name}
-                className="flex w-full items-center justify-start py-[15px] px-[30px] text-slate-900 dark:text-header-light font-normal"
-              >
-                <item.icon className="text-slate-900 dark:text-header-light text-[18px] mr-2" />
-                <span className=" text-[16px] whitespace-normal text-slate-900 dark:text-header-light font-normal">
-                  {item.name !== "switch" && item.name}
-                </span>
-              </div>
+              <>
+                <div
+                  key={item.name}
+                  className="flex w-full items-center justify-start py-[15px] px-[30px] text-slate-900 dark:text-header-light font-normal"
+                >
+                  {item.name !== "switch" ? (
+                    <Link
+                      className="flex items-center justify-start"
+                      href={item.location || "/"}
+                    >
+                      {
+                        <>
+                          <item.icon className="text-slate-900 dark:text-header-light text-[18px] mr-2" />
+                          <span className=" text-[16px] whitespace-normal text-slate-900 dark:text-header-light font-normal">
+                            {item.name}
+                          </span>
+                        </>
+                      }
+                    </Link>
+                  ) : (
+                    <item.icon className="text-slate-900 dark:text-header-light text-[18px] mr-2" />
+                  )}
+                </div>
+              </>
             ))}
           </div>
         </div>

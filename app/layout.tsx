@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en" suppressHydrationWarning={true} className="  w-full ">
+    <html lang="en" suppressHydrationWarning={true} className=" h-full w-full ">
       <body
         className={
           "bg-white dark:bg-slate-800 flex overflow-x-hidden overflow-y-auto flex-col items-center"

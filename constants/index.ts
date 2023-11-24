@@ -5,6 +5,10 @@ export const switchToTheme = {
 
 export interface ResponsType<T> {
   status: string;
-  result: Array<T>;
+  data: {
+    result: Array<T>;
+    total?: number;
+  };
+
   err: string | null;
 }
